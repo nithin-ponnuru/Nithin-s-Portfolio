@@ -14,38 +14,13 @@ import {
 } from "lucide-react";
 import { FadeInLeft } from "@/components/animations/MotionWrapper";
 import { AnimatedCard } from "@/components/animations/AnimatedCard";
+import { i } from "node_modules/framer-motion/dist/types.d-DagZKalS";
 
 const projects = [
-  {
-    icon: BookOpen,
-    title: "Library Management System",
-    duration: "Feb 2025",
-    description: [
-      "Developed Python-based system to manage books and users",
-      "Implemented authentication and issue-return tracking",
-      "Designed structured data handling and search features",
-      "Focused on modular and maintainable code",
-    ],
-    technologies: ["Python", "File Handling"],
-    github: "https://github.com/nithin-ponnuru/Library-Management-System",
-    demo: "https://library-management-system-mpihr8i8jdxhuafaspxytk.streamlit.app/",
-  },
-  {
-    icon: CreditCard,
-    title: "ATM Management System",
-    duration: "Jan 2025",
-    description: [
-      "Simulated ATM operations including deposit and withdrawal",
-      "Implemented secure authentication and validation",
-      "Designed console-based transaction system",
-      "Focused on reliability and error handling",
-    ],
-    technologies: ["Python"],
-    github: "https://github.com/nithin-ponnuru/ATM-Management-System-using-Python",
-    demo: "https://atm-management-system-using-flask.onrender.com/",
-  },
+
    {
     icon: Zap,
+    image: "powerbi.png",
     title: "TG-NPDCL Commercial Electricity Billing Analysis",
     duration: "Dec 2025",
     description: [
@@ -58,8 +33,42 @@ const projects = [
     github: "https://github.com/nithin-ponnuru/TG-NPDCL-Commercial-Electricity-Consumption-Billing-Analysis-Oct-2025-",
     demo: "https://app.powerbi.com/links/n3uDP8pF94?ctid=e14e73eb-5251-4388-8d67-8f9f2e2d5a46&pbi_source=linkShare&bookmarkGuid=4b4a0028-faab-42c2-ace8-5f2039612e2c",
   },
+
+  {
+    icon: CreditCard,
+    image: "atm.png",
+    title: "ATM Management System",
+    duration: "Feb 2026",
+    description: [
+      "Simulated ATM operations including deposit and withdrawal",
+      "Implemented secure authentication and validation",
+      "Designed console-based transaction system",
+      "Focused on reliability and error handling",
+    ],
+    technologies: ["Python"],
+    github: "https://github.com/nithin-ponnuru/ATM-Management-System-using-Python",
+    demo: "https://atm-management-system-using-flask.onrender.com/",
+  },
+
+  {
+    icon: BookOpen,
+    image: "lms.jpeg",
+    title: "Library Management System",
+    duration: "Jan 2026",
+    description: [
+      "Developed Python-based system to manage books and users",
+      "Implemented authentication and issue-return tracking",
+      "Designed structured data handling and search features",
+      "Focused on modular and maintainable code",
+    ],
+    technologies: ["Python", "File Handling"],
+    github: "https://github.com/nithin-ponnuru/Library-Management-System",
+    demo: "https://library-management-system-mpihr8i8jdxhuafaspxytk.streamlit.app/",
+  },
+  
   {
     icon: Database,
+    image: "weather.png",
     title: "Predictive Analytics on Telangana Weather Data",
     duration: "Dec 2025",
     description: [
@@ -74,6 +83,7 @@ const projects = [
   },
   {
     icon: Cpu,
+    image: "hybrid.png",
     title: "Hybrid Collaborative Filtering for Personalized Product Recommendations",
     duration: "July 2025",
     description: [
@@ -89,6 +99,7 @@ const projects = [
  
   {
     icon: BarChart,
+    image: "excel.png",
     title: "Dynamic Superstore Sales Performance Dashboard",
     duration: "Apr 2025",
     description: [
@@ -103,6 +114,7 @@ const projects = [
   },
   {
     icon: MessageCircle,
+    image: "hobby.png",
     title: "Hobby Recommender Chatbot",
     duration: "Apr 2025",
     description: [
@@ -117,6 +129,7 @@ const projects = [
   },
   {
     icon: Car,
+    image: "ev dataset.png",
     title: "Data Analysis on Electric Vehicles Dataset",
     duration: "Apr 2025",
     description: [
@@ -131,6 +144,7 @@ const projects = [
   },
    {
     icon: Building2,
+    image: "page.png",
     title: "Efficient Page Replacement Algorithm Simulator",
     duration: "Mar 2025",
     description: [
@@ -187,6 +201,15 @@ export const ProjectsSection = () => {
               hoverEffect="glow"
               className="glass rounded-2xl p-6 border border-primary/30 shadow-[0_0_20px_rgba(34,197,94,0.15)] hover:shadow-[0_0_45px_rgba(34,197,94,0.45)] hover:border-primary transition-all duration-500"
             >
+              {/* ✅ ADD THIS IMAGE BLOCK */}
+  <div className="mb-4 h-56 overflow-hidden rounded-xl bg-muted">
+  <img
+    src={project.image}
+    alt={project.title}
+    className="w-full h-full object-cover hover:scale-110 transition duration-500"
+    onError={(e) => (e.currentTarget.src = "/fallback.png")}
+  />
+</div>
               <motion.div
                 className="text-primary text-4xl mb-6"
                 whileHover={{ scale: 1.1, rotate: 5 }}
@@ -231,6 +254,7 @@ export const ProjectsSection = () => {
                   <ExternalLink size={18} />
                 </motion.a>
               </div>
+              
             </AnimatedCard>
           ))}
         </div>

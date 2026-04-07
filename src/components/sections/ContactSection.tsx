@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
-import { Mail, Phone, Github, Linkedin, Link, Instagram, X, Twitter } from "lucide-react";
+import { Mail, Phone, Github, Linkedin, Instagram, Twitter } from "lucide-react";
 import { FadeInLeft } from "@/components/animations/MotionWrapper";
 import { AnimatedCard } from "@/components/animations/AnimatedCard";
+import emailjs from "@emailjs/browser";
+import { useRef, useState } from "react";
 
 const contactInfo = [
   {
@@ -32,6 +34,37 @@ const socialLinks = [
 ];
 
 export const ContactSection = () => {
+
+  const formRef = useRef<HTMLFormElement>(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const sendEmail = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formRef.current) return;
+
+    setLoading(true);
+
+    emailjs
+      .sendForm(
+        "service_0b03wzk",
+        "template_7n07vu4",
+        formRef.current,
+        "xnFKZ8gO_JKI5Q5S1"
+      )
+      .then(
+        () => {
+          setLoading(false);
+          setSuccess(true);
+          formRef.current?.reset();
+        },
+        () => {
+          setLoading(false);
+        }
+      );
+  };
+
   return (
     <section id="contact" className="py-24 relative">
       <div
@@ -44,79 +77,115 @@ export const ContactSection = () => {
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         <FadeInLeft>
           <h2 className="text-3xl md:text-4xl font-bold mb-12 flex items-center gap-4">
-            <span className="section-number">07.</span>
+            <span className="section-number">08.</span>
             Get In Touch
           </h2>
         </FadeInLeft>
 
-        <div className="max-w-2xl mx-auto text-center">
-          <motion.p
-            className="text-muted-foreground text-lg leading-relaxed mb-10"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
-            Open to internships, projects, and learning opportunities.
-          </motion.p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
-          {/* Contact Cards */}
-          <div className="flex flex-col gap-4 mb-10">
-            {contactInfo.map((info, index) => (
-              <AnimatedCard
-                key={info.label}
-                index={index}
-                hoverEffect="lift"
-                className="glass rounded-2xl p-6 border border-primary/30 shadow-[0_0_20px_rgba(34,197,94,0.15)] hover:shadow-[0_0_45px_rgba(34,197,94,0.45)] hover:border-primary transition-all duration-500"
-              >
-                <div className="flex items-center gap-4 sm:flex-row flex-col text-center sm:text-left">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <info.icon className="text-primary" size={24} />
+          {/* LEFT SIDE */}
+          <div>
+            <motion.p
+              className="text-muted-foreground text-lg leading-relaxed mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+            >
+              Open for internships, projects, and learning opportunities.
+            </motion.p>
+
+            <div className="flex flex-col gap-4 mb-8">
+              {contactInfo.map((info, index) => (
+                <AnimatedCard
+                  key={info.label}
+                  index={index}
+                  hoverEffect="lift"
+                  className="glass rounded-2xl p-6 border border-primary/30 shadow-[0_0_20px_rgba(34,197,94,0.15)] hover:shadow-[0_0_45px_rgba(34,197,94,0.45)] hover:border-primary transition-all duration-500"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <info.icon className="text-primary" size={24} />
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground text-xs uppercase tracking-wider">
+                        {info.label}
+                      </span>
+                      <div>
+                        <a
+                          href={info.href}
+                          className="text-foreground font-semibold hover:text-primary"
+                        >
+                          {info.value}
+                        </a>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-muted-foreground text-xs uppercase tracking-wider font-medium">
-                      {info.label}
-                    </span>
-                    {info.href ? (
-                      <a
-                        href={info.href}
-                        className="text-foreground font-semibold hover:text-primary transition-colors"
-                      >
-                        {info.value}
-                      </a>
-                    ) : (
-                      <span className="text-foreground font-semibold">{info.value}</span>
-                    )}
-                  </div>
-                </div>
-              </AnimatedCard>
-            ))}
+                </AnimatedCard>
+              ))}
+            </div>
+
+            <div className="flex justify-center gap-4">
+              {socialLinks.map((social, index) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  className="w-12 h-12 rounded-full glass flex items-center justify-center border border-primary/30 hover:bg-primary hover:text-primary-foreground transition-all"
+                >
+                  <social.icon size={20} />
+                </a>
+              ))}
+            </div>
           </div>
-
-          {/* Social Links */}
-          <motion.div
-            className="flex justify-center gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-          >
-            {socialLinks.map((social, index) => (
-              <motion.a
-                key={social.label}
-                href={social.href}
-                className="w-12 h-12 rounded-full glass flex items-center justify-center text-muted-foreground border border-primary/30 shadow-[0_0_12px_rgba(34,197,94,0.15)] hover:bg-primary hover:text-primary-foreground hover:border-primary hover:shadow-[0_0_25px_rgba(34,197,94,0.45)] transition-all duration-300"
-                whileHover={{ y: -5, scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.4 + index * 0.1 }}
-                aria-label={social.label}
+              {/* RIGHT SIDE FORM */}
+              <AnimatedCard
+                hoverEffect="lift"
+                className="glass rounded-2xl p-8 border border-primary/30 shadow-[0_0_30px_rgba(34,197,94,0.40)] hover:shadow-[0_0_50px_rgba(34,197,94,0.50)] transition-all duration-500"
               >
-                <social.icon size={20} />
-              </motion.a>
-            ))}
-          </motion.div>
+                <form ref={formRef} onSubmit={sendEmail} className="space-y-4">
+
+                  <input
+                    type="text"
+                    name="from_name"
+                    placeholder="Your Name"
+                    required
+                    className="w-full p-3 rounded-lg bg-muted border border-border outline-none focus:border-primary"
+                  />
+
+                  <input
+                    type="email"
+                    name="from_email"
+                    placeholder="Your Email"
+                    required
+                    className="w-full p-3 rounded-lg bg-muted border border-border outline-none focus:border-primary"
+                  />
+
+                  <textarea
+                    name="message"
+                    placeholder="Your Message"
+                    rows={5}
+                    required
+                    className="w-full p-3 rounded-lg bg-muted border border-border outline-none focus:border-primary"
+                  />
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full py-3 rounded-full bg-primary text-primary-foreground font-semibold hover:opacity-90 transition"
+                  >
+                    {loading ? "Sending..." : "Send Message"}
+                  </button>
+
+                  {/* ✅ SUCCESS MESSAGE */}
+                  {success && (
+                    <p className="text-green-500 text-sm text-center">
+                      Thanks for your message! I'll get back to you soon.
+                    </p>
+                  )}
+
+                </form>
+              </AnimatedCard>
         </div>
       </div>
     </section>
